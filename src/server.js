@@ -1,7 +1,7 @@
 require("express-async-errors");
 require("dotenv/config");
 const AppError = require("./utils/AppError");
-// const uploadConfig = require("./configs/upload");
+const uploadConfig = require("./configs/upload");
 
 const cors = require("cors");
 const express = require("express");
@@ -16,7 +16,7 @@ app.use(express.json());
 //   credentials: true
 // }));
 
-// app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER));
+app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER));
 
 app.use(routes);
 
