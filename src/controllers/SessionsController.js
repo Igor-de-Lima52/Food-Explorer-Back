@@ -25,17 +25,16 @@ class SessionsController{
       expiresIn
     });
     
-    // res.cookie("token", token, {
-    //   httpOnly: true,
-    //   sameSite: "none",
-    //   secure: true,
-    //   maxAge: 15 * 60 * 1000
-    // });
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+      maxAge: 15 * 60 * 1000
+    });
 
-    // delete user.password;
+    delete user.password;
 
-    // res.status(201).json({ user });
-    return res.json({ user, token });
+    res.status(201).json({ user });
   }
 }
 

@@ -122,8 +122,6 @@ class DishesController{
       .orderBy("id");
     }
     else if((!dishes || dishes.length === 0) && ingredients){
-    //   // const filterIngredients = ingredients.split(",").map(ingredient => ingredient.trim());
-    //   console.log(ingredients);
 
       dishes = await knex("ingredients")
       .select(["dishes.id","dishes.title", "dishes.price", "dishes.description", "dishes.category", "dishes.image"])
@@ -147,7 +145,6 @@ class DishesController{
         image
       }
     });
-    // console.log(dish);
     return res.json(dish);
   }
 }
