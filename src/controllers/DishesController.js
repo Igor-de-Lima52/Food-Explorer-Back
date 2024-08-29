@@ -4,11 +4,9 @@ const DiskStorage = require("../providers/DiskStorage");
 
 class DishesController{
   async create(req, res){
-    const { title, description, ingredients, price, category } = req.body;
+    const { title, description, ingredients, price, category} = req.body;
     const user_id = req.user.id;
-    // const dishFileName = req.file.filename;
-
-    // console.log(dishFileName);
+    const dishFileName = req.file.filename;
 
     const diskStorage = new DiskStorage();
     const user = await knex("users").where({ id: user_id }).first();
@@ -17,14 +15,14 @@ class DishesController{
       throw new AppError("Only authenticated users can change the image", 401);
     }
 
-    // const savedFileName = await diskStorage.saveFile(dishFileName);
+    const savedFileName = await diskStorage.saveFile(dishFileName);
 
-    // const imageUrl = `/files/${savedFileName}`;
+    const imageUrl = savedFileName;
     
     const [ dish_id ] = await knex("dishes").insert({
       title,
       description,
-      // image: imageUrl,
+      image: imageUrl,
       price,
       category
     });
@@ -59,21 +57,21 @@ class DishesController{
     if(!dish){
       throw new AppError("Dish not found", 404);
     }
-    // let imageUrl = dish.image;
-    // if (req.file) {
-    //   const dishFileName = req.file.filename;
-    //   if(dish.image){
-    //    await diskStorage.deleteFile(dish.image); 
-    //   }
-    //   const savedFileName = await diskStorage.saveFile(dishFileName);
-    //   imageUrl = `http://localStorage:3333/files/${savedFileName}`;
-    // }
+    let imageUrl = dish.image;
+    if (req.file) {
+      const dishFileName = req.file.filename;
+      if(dish.image){
+       await diskStorage.deleteFile(dish.image); 
+      }
+      const savedFileName = await diskStorage.saveFile(dishFileName);
+      imageUrl = savedFileName;
+    }
   
     await knex("dishes").where({ id })
     .update({ 
       title, 
       description, 
-      // image: imageUrl,
+      image: imageUrl,
       price,
       category
     });
@@ -114,35 +112,42 @@ class DishesController{
     return res.json();
   }
   async index(req, res){
-    const { title, description, price, ingredients } = req.query;
+    const { title, ingredients } = req.query;
     
     let dishes;
 
-    if(ingredients){
-      const filterIngredients = ingredients.split(",").map(ingredient => ingredient.trim());
+    if(title){
+      dishes = await knex("dishes")
+      .whereLike("title", `%${title}%`)
+      .orderBy("id");
+    }
+    else if((!dishes || dishes.length === 0) && ingredients){
+    //   // const filterIngredients = ingredients.split(",").map(ingredient => ingredient.trim());
+    //   console.log(ingredients);
 
       dishes = await knex("ingredients")
-      .select(["dishes.id","dishes.title"])
+      .select(["dishes.id","dishes.title", "dishes.price", "dishes.description", "dishes.category", "dishes.image"])
       .whereLike("dishes.title", `%${title}%`)
-      .whereLike("ingredients.name", `%${filterIngredients}%`)
+      .whereLike("ingredients.name", `%${ingredients}%`)
       .innerJoin("dishes", "dishes.id", "ingredients.dish_id")
       .groupBy("dishes.id")
       .orderBy("dishes.title")
     }
     else{
-      dishes = await knex("dishes")
-      .whereLike("title", `%${title}%`)
-      .orderBy("id");
+      dishes = await knex("dishes").orderBy("id");
     }
-    
-    const dish = dishes.map(({ id, title, description, price }) => {
+
+    const dish = dishes.map(({ id, title, description, price, category, image }) => {
       return{
         id,
         title,
         description,
-        price
+        price,
+        category,
+        image
       }
     });
+    // console.log(dish);
     return res.json(dish);
   }
 }

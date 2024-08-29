@@ -23,8 +23,8 @@ class SessionsController{
     const token = sign({role: user.role}, secret, {
       subject: String(user.id),
       expiresIn
-    })
-
+    });
+    
     // res.cookie("token", token, {
     //   httpOnly: true,
     //   sameSite: "none",
