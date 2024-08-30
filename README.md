@@ -1,10 +1,10 @@
-# Food Explorer
+# 🍽️ Food Explorer
 
-## Project description
+## 📖 Project description
 
 **Food Explorer** is a dish registration system for a restaurant. Administrators can add, edit or remove dishes, while users can view the dishes available on the menu. The project aims to facilitate the management of a restaurant's menu and improve the customer experience when viewing dish options.
 
-## Technoolgies used
+## 🛠️ Technoolgies used
 
 The project backend was developed using the following technologies and libraries:
 
@@ -20,7 +20,7 @@ The project backend was developed using the following technologies and libraries
 - **pm2**: Node.js application process manager.
 - **sqlite** and **sqlite3**: Lightweight SQL database for local storage.
 
-## Requisitos de Sistema
+## ⚙️ System requirements
 
 To run the project backend, you will need:
 
@@ -29,7 +29,7 @@ To run the project backend, you will need:
 
 > **Note**: It is important to have Node.js and npm configured correctly in your development environment.
 
-## Installation
+## 🚀 Installation
 
 To configure the development environment, follow these steps:
 
@@ -43,7 +43,7 @@ To configure the development environment, follow these steps:
    ```bash
    npm install
    ```
-## Settings
+## 🔧 Settings
 Before running the project, you need to configure the environment variables. Rename the  **.env.example**  file to  **.env** and adjust the variables as needed.
 
 ```bash
@@ -51,7 +51,7 @@ cp .env.example .env
 ```
 Edit the file .env to include your settings
 
-## Execution
+## ▶️ Execution
 
 To start the development server, use the command:
 ```bash
@@ -62,7 +62,7 @@ To run the server in a production environment (with PM2), use:
 npm start
 ``` 
 
-## Directory structure
+## 📂 Directory structure
 
 The Backend directory structure is organized as follows:
 
@@ -81,7 +81,7 @@ The Backend directory structure is organized as follows:
 server.js        # Server entry point
 ```
 
-## API endpoints
+## 🔗 API endpoints
 
 Endpoints are the access points to different API funcionalities. The project's main endpoints include: 
 
@@ -89,6 +89,6 @@ Endpoints are the access points to different API funcionalities. The project's m
 - **/dishes**: Dishes management (list, create, edit, delete)
 - **/sessions**: Sessions management (log in, log out)
 
-## Authentication and Authorization
+## 🔐 Authentication and Authorization
 The project uses JSON Web Tokens (JWT) for authentication. The users and admins must log in to receive an access token. The actions such as creation and editing dishes are restricted only for admins
 
