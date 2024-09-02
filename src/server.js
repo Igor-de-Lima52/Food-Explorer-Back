@@ -9,9 +9,12 @@ const routes = require("./routes");
 const cookieParser = require("cookie-parser");
 
 const app = express();
-app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+  origin: ["https://uniquefood.netlify.app"],
+  credentials: true
+}));
 
 app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER));
 
